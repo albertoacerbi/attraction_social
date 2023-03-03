@@ -155,9 +155,6 @@ ggplot(data = output, aes(x = a, y = p, fill = stabile)) +
   labs(fill = "Runs stable\nat trait A") +
   ggsave("figures/fig3.pdf", width = 5, height = 4)
 
-ggplot(data = big_big_output, aes(x=p, y=stabile, group=a)) +
-  geom_line()
-
 
 
 
