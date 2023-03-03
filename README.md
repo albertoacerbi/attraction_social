@@ -1,2 +1,4 @@
 # attraction_social
-Individual-based models codes mixing attraction and indirect biases (conformity and prestige)
+
+This repository contains the R codes for individual-based models mixing attraction and indirect biases (conformity and prestige).
+
