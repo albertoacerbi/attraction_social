@@ -76,17 +76,77 @@ biased_transmission_demonstrator_discrete <- function(N, p_0, c_s, c_low, alpha_
   output 
 }
 
+# continuous: TO DO.......
+
+biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_low, alpha_attr, t_max, r_max) {
+  
+  output <- tibble(generation = rep(1:t_max, r_max), 
+                   p = as.numeric(rep(NA, t_max * r_max)), 
+                   run = as.factor(rep(1:r_max, each = t_max)))
+  
+  for (r in 1:r_max) {
+    # Create first generation
+    if(is.na(p_0)){
+      population <- tibble(trait = rescale(rnorm(N),0,1),
+                           status = sample(c("high", "low"), N,
+                                           replace = TRUE, prob = c(c_s, 1 - c_s))) 
+    }
+    else{
+      population <- tibble(trait = sample(c(1, 0), N, 
+                                          replace = TRUE, prob = c(p_0, 1 - p_0)),
+                          status = sample(c("high", "low"), N,
+                                         replace = TRUE, prob = c(c_s, 1 - c_s))) 
+    }
+    
+    # Assign copying probabilities based on individuals' status
+    p_demonstrator <- rep(1,N)
+    p_demonstrator[population$status == "low"] <- c_low
+    
+    # Add first generation's p for run r
+    output[output$generation == 1 & output$run == r, ]$p <- 
+      mean(population$trait)
+    
+    for (t in 2:t_max) {
+      
+      # Create a new population that would update using prestige:
+      prestige_population <- population
+      
+      # Copy traits based on status
+      if(sum(p_demonstrator) > 0){
+        demonstrator_index <- sample (N, prob = p_demonstrator, replace = TRUE)
+        prestige_population$trait <- population$trait[demonstrator_index]
+      }
+      
+      # Copy back in population:
+      population <- prestige_population 
+      
+      # Attraction:
+      change_ind <- sample(c("TRUE", "FALSE"), N, prob = c(alpha_attr, 1-alpha_attr), replace = TRUE)
+      if(sum(change_ind == TRUE) > 0){
+        changes <- runif(sum(change_ind == TRUE), 0, 1 - population[change_ind == TRUE,]$trait )
+        population[change_ind == TRUE,]$trait <- population[change_ind == TRUE,]$trait + changes
+      }
+      
+      # Get p and put it into output slot for this generation t and run r
+      output[output$generation == t & output$run == r, ]$p <- mean(population$trait)
+    }
+    
+  }
+  # Export data from function
+  output 
+}
+
+
 
 
 # TESTS:
-# tic()
-# data_model <- conformist_transmission_continuous(N = 1000, p_0 = 0, alpha_attr = 0.01, t_max = 100, r_max = 10)
-# plot_multiple_runs(data_model)
-# # in the continuous case, no matter how small is alpha, at some point it will always stabilise on the attractor! 
-# toc()
+tic()
+data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_low = 0.001, alpha_attr = 0.1, t_max = 100, r_max = 100)
+plot_multiple_runs(data_model)
+toc()
 # 
 tic()
-data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.5, c_s = 0.01, c_low = 0.001, alpha_attr = 0.1, t_max = 100, r_max = 100)
+data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.5, c_s = 0.01, c_low = 0.001, alpha_attr = 0.1, t_max = 100, r_max = 50)
 plot_multiple_runs(data_model)
 toc()
 

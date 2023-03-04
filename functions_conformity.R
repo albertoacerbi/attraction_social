@@ -127,8 +127,10 @@ conformist_transmission_continuous <- function (N, alpha_attr, p_0, t_max, r_max
       population <- conf_population 
       # Attraction:
       change_ind <- sample(c("TRUE", "FALSE"), N, prob = c(alpha_attr, 1-alpha_attr), replace = TRUE)
-      if(sum(change_ind == TRUE) > 0)
-        population[change_ind == TRUE] <- population[change_ind == TRUE] + runif(1, 0, 1 - population[change_ind == TRUE] )
+      if(sum(change_ind == TRUE) > 0){
+        changes <- runif(sum(change_ind == TRUE), 0, 1 - population[change_ind == TRUE] )
+        population[change_ind == TRUE] <- population[change_ind == TRUE] + changes
+      }
       # Get p and put it into output slot for this generation t and run r:
       output[output$generation == t & output$run == r, ]$p <- mean(population)
       output[output$generation == t & output$run == r, ]$sd <- sd(population)
@@ -143,15 +145,15 @@ conformist_transmission_continuous <- function (N, alpha_attr, p_0, t_max, r_max
 
 # TESTS:
 # tic()
-# data_model <- conformist_transmission_continuous(N = 1000, p_0 = 0, alpha_attr = 0.01, t_max = 100, r_max = 10)
+# data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0.1, t_max = 100, r_max = 100)
 # plot_multiple_runs(data_model)
-# # in the continuous case, no matter how small is alpha, at some point it will always stabilise on the attractor! 
+#  # in the continuous case, no matter how small is alpha, at some point it will always stabilise on the attractor! 
 # toc()
-# 
-tic()
-data_model <- conformist_transmission_discrete(N = 1000, p_0 = 0.5, D = 1, alpha_attr = 0.01, t_max = 50, r_max = 10)
-plot_multiple_runs(data_model)
-toc()
+# # 
+# tic()
+# data_model <- conformist_transmission_discrete(N = 1000, p_0 = 0.5, D = 1, alpha_attr = 0.01, t_max = 50, r_max = 10)
+# plot_multiple_runs(data_model)
+# toc()
 
 
 
