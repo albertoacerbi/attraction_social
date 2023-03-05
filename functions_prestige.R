@@ -1,14 +1,9 @@
 library(tidyverse)
 library(tictoc)
-library(matrixStats)
 
-
-
-rescale <- function(original, new_min, new_max){
-  current_max = max(original)
-  current_min = min(original)
-  output =((original - current_min)*(new_max - new_min))/(current_max - current_min) + new_min
-  output
+# softmax 
+softmax <- function(x, temp = 1) {
+  exp(x / temp) / sum(exp(x / temp))
 }
 
 
@@ -22,11 +17,17 @@ plot_multiple_runs <- function(data_model) {
     labs(y = "p")
 }
 
+rescale <- function(original, new_min, new_max){
+  current_max = max(original)
+  current_min = min(original)
+  output =((original - current_min)*(new_max - new_min))/(current_max - current_min) + new_min
+  output
+}
+
 # ACTUAL SIMS:
 
-
-# discrete - from Acerbi, Mesoudi, Smolla, IBM book:
-biased_transmission_demonstrator_discrete <- function(N, p_0, c_s, c_low, alpha_attr, t_max, r_max) {
+# discrete - from Acerbi, Mesoudi, Smolla, IBM book + JW's softmax function + attraction (biased mutation in the discrete case):
+biased_transmission_demonstrator_discrete <- function(N, p_0, c_s, c_copy, alpha_attr, t_max, r_max) {
   
   output <- tibble(generation = rep(1:t_max, r_max), 
                    p = as.numeric(rep(NA, t_max * r_max)), 
@@ -41,7 +42,8 @@ biased_transmission_demonstrator_discrete <- function(N, p_0, c_s, c_low, alpha_
     
     # Assign copying probabilities based on individuals' status
     p_demonstrator <- rep(1,N)
-    p_demonstrator[population$status == "low"] <- c_low
+    p_demonstrator[population$status == "high"] <- 1 + c_copy
+    p_demonstrator <- softmax(p_demonstrator)
     
     # Add first generation's p for run r
     output[output$generation == 1 & output$run == r, ]$p <- 
@@ -76,9 +78,10 @@ biased_transmission_demonstrator_discrete <- function(N, p_0, c_s, c_low, alpha_
   output 
 }
 
-# continuous: TO DO.......
+## ----
+# continuous: 
 
-biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_low, alpha_attr, t_max, r_max) {
+biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_copy, alpha_attr, t_max, r_max) {
   
   output <- tibble(generation = rep(1:t_max, r_max), 
                    p = as.numeric(rep(NA, t_max * r_max)), 
@@ -100,11 +103,11 @@ biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_low, alph
     
     # Assign copying probabilities based on individuals' status
     p_demonstrator <- rep(1,N)
-    p_demonstrator[population$status == "low"] <- c_low
+    p_demonstrator[population$status == "high"] <- 1 + c_copy
+    p_demonstrator <- softmax(p_demonstrator)
     
     # Add first generation's p for run r
-    output[output$generation == 1 & output$run == r, ]$p <- 
-      mean(population$trait)
+    output[output$generation == 1 & output$run == r, ]$p <- mean(population$trait)
     
     for (t in 2:t_max) {
       
@@ -139,16 +142,15 @@ biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_low, alph
 
 
 
-# TESTS:
-tic()
-data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_low = 0.001, alpha_attr = 0.1, t_max = 100, r_max = 100)
-plot_multiple_runs(data_model)
-toc()
+# TESTS HERE:
+
+# tic()
+# data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.5, c_s = 0.01, c_copy = 5, alpha_attr = 0, t_max = 100, r_max = 10)
+# plot_multiple_runs(data_model)
+# toc()
 # 
-tic()
-data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.5, c_s = 0.01, c_low = 0.001, alpha_attr = 0.1, t_max = 100, r_max = 50)
-plot_multiple_runs(data_model)
-toc()
-
-
-
+# tic()
+# data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_copy = 5, alpha_attr = 0.1, t_max = 200, r_max = 10)
+# plot_multiple_runs(data_model)
+# toc()
+# # 

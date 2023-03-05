@@ -25,7 +25,7 @@ plot_multiple_runs <- function(data_model) {
 # ACTUAL SIMS:
 
 
-# discrete - from Acerbi, Mesoudi, Smolla, IBM book:
+# discrete - from Acerbi, Mesoudi, Smolla, IBM book + attraction (biased mutation in the discrete case):
 conformist_transmission_discrete <- function (N, p_0, D, alpha_attr, t_max, r_max) {
   
   output <- tibble(generation = rep(1:t_max, r_max), 
@@ -92,7 +92,7 @@ conformist_transmission_discrete <- function (N, p_0, D, alpha_attr, t_max, r_ma
 }
 
 
-# continuous - from Morgan & Thompson 2022
+# continuous - conformity as copying pop mean with error = variance, from Morgan & Thompson 2022
 
 conformist_transmission_continuous <- function (N, alpha_attr, p_0, t_max, r_max) {
   
@@ -143,7 +143,7 @@ conformist_transmission_continuous <- function (N, alpha_attr, p_0, t_max, r_max
 
 
 
-# TESTS:
+# TESTS HERE:
 # tic()
 # data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0.1, t_max = 100, r_max = 100)
 # plot_multiple_runs(data_model)
