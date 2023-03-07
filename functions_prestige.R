@@ -1,5 +1,7 @@
 library(tidyverse)
 library(tictoc)
+library(RColorBrewer) # with colour-blind-friendly palettes
+
 
 # softmax 
 softmax <- function(x, temp = 1) {
@@ -145,12 +147,12 @@ biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_copy, alp
 # TESTS HERE:
 
 # tic()
-# data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.5, c_s = 0.01, c_copy = 5, alpha_attr = 0, t_max = 100, r_max = 10)
+# data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.5, c_s = 0.01, c_copy = 1, alpha_attr = 0, t_max = 200, r_max = 10)
 # plot_multiple_runs(data_model)
 # toc()
 # 
 # tic()
-# data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_copy = 5, alpha_attr = 0.1, t_max = 200, r_max = 10)
+# data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_copy = 1, alpha_attr = 0, t_max = 200, r_max = 10)
 # plot_multiple_runs(data_model)
 # toc()
 # # 

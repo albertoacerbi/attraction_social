@@ -127,7 +127,7 @@ toc()
 # 
 # output <- tibble(a = rep(alpha_attractor_cycle, each = length(p_0_cycle)),
 #                  p = rep(p_0_cycle, length(alpha_attractor_cycle)),
-#                  stabile = as_numeric(NA))
+#                  stabile = as.numeric(NA))
 # 
 # for(a in alpha_attractor_cycle){
 #   tic()
