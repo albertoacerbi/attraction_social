@@ -1,0 +1,144 @@
+---
+title: "Weak content preferences stabilise culture"
+author: ""
+format: pdf
+header-includes:
+- \usepackage{setspace}\doublespacing
+- \usepackage[left]{lineno}
+fontsize: 11pt
+geometry: margin=1in
+citecolor: blue
+bibliography: references.bib
+---
+
+\singlespacing
+
+Alberto Acerbi
+
+[alberto.acerbi\@unitn.it](mailto:alberto.acerbi@unitn.it){.email}
+
+Department of Sociology and Social Research, University of Trento, Italy
+
+Centre for Culture and Evolution, Division of Psychology, Brunel University London, UK
+
+## Abstract
+
+TO DO
+
+## Keywords
+
+Cultural attraction; cultural evolution; cultural transmission; conformity; prestige; human universals; individual-based models.
+
+::: {style="page-break-after: always; visibility: hidden"}
+\pagebreak
+:::
+
+```{=tex}
+\doublespacing
+\linenumbers
+```
+# Introduction {#introduction}
+
+On the first Thursday of March, the UK and Ireland celebrate World Book Day, and in many primary schools children dress up as their favourite book characters. When children turn seven or eight, parents start to recognise in the courtyard the familiar figures of the Hogwarts School of Witchcraft and Wizardry. Apparently, children in the UK and Ireland go through generational waves, where each cohort "rediscovers" Harry Potter. Why are some things successful in spreading widely and stably, such as the fictional world of Harry Potter in the last twenty years, while others are not?
+
+An intuitive distinction concerns the effect of social influence versus the features of the content of the traits. The "rediscovery" of Harry Potter is due to parents, elder siblings, and early adopter-peers, from which children learn, as a minimum, about its existence. At the same time, it feels that the content of Harry Potter's stories should be attractive enough to reinforce social influence, in order to be stable through years, and in many different countries. Content and social influence are likely to act together, to a different degree. For some traits, however, content seems more important: western children, on average, prefer pizza to boiled spinach, no matter the efforts of parents; the great majority of cultures use, in some occasions, masks or make-up for faces [@sperber2004]. For others, it may be the opposite: hugging or and kissing can be used as greetings in some societies, but considered inappropriate in others where, maybe, handshakes, or bowing, are used; beanie hats and skinny jeans come and go.
+
+This intuitive distinction is reflected in evolutionary approaches to the study of culture. Epistemic vigilance distinguishes, for example, between the evaluation of the "source" and of the "content" of communicated information [@sperber2010]. In the cultural evolution framework, different mechanisms have been proposed as reflecting social influence, usually under the general label of indirect-biased transmission [@boyd1985] or context-biased social learning strategies [@kendal2018]: these mechanisms act by selecting among different cultural traits the ones that are associated to some features of the context, or of the population. On the other side, direct-biased transmission, or content-biased social learning, indicate the selection of traits based on their intrinsic features. However, preferences for content also act outside the selection process: we can adopt cultural traits via individual learning, a process sometimes labelled guided variation, [@boyd1985]. More generally, various individual processes can make us converge with higher probability to some traits, or particular configurations of traits: in cultural evolution terminology they are referred to as convergent transformation [@acerbi2021; @mesoudi2021], or content-based attraction [@claidière2007].
+
+In what follows, I present individual-based models of cultural evolution that consider both preferences for content and social influence, both with discrete and continuous traits. I am using the label "content preferences" for mechanisms that are *not socially influenced*, that is, they do not depend directly from features of the larger population; *directional*, that is, points towards a particular trait, or traits configuration; and, finally, *stable*: they do not change, at least at the time scale of the simulations. The content preferences modelled here are equivalent, in the discrete case, to biased mutation as in @acerbi2022; in the continuous case, to guided variation [@boyd1985], biased or convergent transformation [@acerbi2021; @mesoudi2021], or content-based attraction [@claidière2007].
+
+In opposition, in the models below, "social influence" identifies mechanisms that select traits to copy based on features of the population/source, that are not associated to particular traits, and thus change accordingly to changes in the population. The simulations consider two of the most studied mechanisms of social influence: conformity (or frequency-based indirect bias) and model-based indirect-bias. Conformity is defined as a disproportionate tendency to copy from the majority, and it is implemented, in the discrete case, following @acerbi2022, which, in turn, is an individual-based version of the treatment in @boyd1985. Conformity with continuous traits is rarely modelled: here I follow @morgan2020. Demonstrator-based indirect-biases instead do not depend on the frequency of traits, but on features of the demonstrator. A classic example is prestige-bias, or a tendency to copy preferentially from individuals that are considered to be "high-status" [@jiménez2019], but any tendency that make to preferentially choose some demonstrators because of features independent from the copied traits would fit the description, such as copying preferentially younger (or older) demonstrators. The models implementing demonstrator-based indirect-biases are inspired, with modification, by @acerbi2022 and @mesoudi2009.
+
+Surprisingly, there is not a clear understanding of what are exactly the consequences of dynamics driven by preferences for content or by social influence. Many studies in cultural evolution focus on social influence, possibly because heuristics like conformity or prestige-bias can produce population-level adaptive behaviours that go beyond individual cognition, a process that is considered central in cultural evolution [@henrich2016]. Other researchers have instead highlighted the importance of weak but stable preferences for content, as the main way to support cultural transmission and hence stabilise traditions [@morin2015]. Few studies have considered explicitly the difference between the two process. @henrich2002 showed that when both social influence and preferences for content act, social influence fully determines the outcome. However, their model assume two preferences for content, and social influence acting stably towards one of the two. In response to this work, @claidière2007 presented a model where social influence and the target for content preferences are separated, and they show how the final equilibrium point depends on the relative strenght of social influence and content preferences.
+
+In both these models, the target of social influence is however fixed and linked to a particular trait, or trait configuration. "Pure" social influence should be instead considered as determined *only* by the context, be it the frequency of any trait in the population, or some demonstrators' features independent from the copied trait. Below, I show that, when this is the case, even weak content preferences determine cultural dynamics, as they are the only directional forces.
+
+# Methods
+
+The model simulates a population of $N=1000$ individuals. Individuals possess a single cultural trait. In the "discrete traits" simulations, individuals possess a discrete cultural trait, either A or B. The trait is randomly initialised at the beginning of each run according to a parameter $p_0$, which gives the probability, for each individual, of being assigned a trait A. In the "continuous traits" simulation, the trait is a value $p$ between 0 and 1, randomly initialised at the beginning from a standard normal distribution (with $\mu=0$ and $\sigma=1$) rescaled between 0 and 1.
+
+In the "discrete traits" simulations examining frequency-based social influence (e.g., conformity), at each time step, three demonstrators are randomly chosen for each individual. If all have the same trait (three As or three Bs), the individual copies it automatically. In the other cases, the majority trait (i.e., the one possessed by two demonstrators) is adopted with a probability equal to $2/3+D/3$. The parameter $D$ goes between 0 and 1, regulating the strength of conformity. With $D=0$ (no conformity) the probability of copying the majority trait is 2/3, equivalent to unbiased copying, and with $D=1$ (maximum conformity) individuals always copy the majority trait. In all simulations below, $D$ is fixed to $1$.
+
+In the simulations with continuous traits, each individual adopts the mean trait in the population, with an error lower than the variance of the trait, that is, randomly extracted between $-\omega(p)$ and $+\omega(p)$.
+
+Finally, the preference for the content is implemented: in the discrete traits scenario, with a probability of $\alpha$, individuals switch to trait A. In the simulation with continuous traits, with the same probability $\alpha$, individuals adopt instead $p=1$. Simulations run for $T$ time steps, where this process is iterated.
+
+For simulation examining demonstrator-based social learning (e.g., prestige), at the beginning of each run, some individuals are randomly assigned to "high" status, according to a parameter $C_s$. Each individual has a baseline probability ($x$) of being chosen as a demonstrator equal to 1. For high status individuals, this probability is increased of an integer $C_{copy}$. Probabilities are rescaled with a softmax function, ${e^{x_i}}/{\sum_{i=1}^N e^{x_i}}$. After copying the trait of the assigned demonstrator, individuals are subject to the same process of possibly changing traits according to preferences as described above.
+
+Table 1 summarises the main symbols and parameters used in the models and their explanation. All codes for running the simulations and reproducing the results presented here are available at: <https://github.com/albertoacerbi/attraction_social>.
+
+::: {style="page-break-after: always; visibility: hidden"}
+\pagebreak
+:::
+
+| Symbol     | Meaning                                                         |
+|--------------------------|----------------------------------------------|
+| $N$        | population size (fixed to $1000$)                               |
+| $T$        | maximum number of time steps                                    |
+| $p_0$      | proportion of trait $A$ in "discrete traits" simulations        |
+| $D$        | strength of conformity (fixed to 1)                             |
+| $C_s$      | proportion of individuals assigned to high status               |
+| $C_{copy}$ | gain in probability of being copied for high status individuals |
+| $\alpha$   | strength of content preference                                  |
+
+: List of main symbols used in the models and their explanation.
+
+::: {style="page-break-after: always; visibility: hidden"}
+\pagebreak
+:::
+
+# Results {#results}
+
+Let's begin with the results of the simulations mixing content preference and conformity, or frequency-based social influence. Figure \ref{fig1} shows the comparison of representative runs. The top-left panel shows simulations where only conformity acts ($\alpha=0$), starting with an equal mixture of traits A and B ($p_0=0.5$). Each run quickly converges towards an equilibrium where only one of the two traits is present. The trait that gains, by chance, an initial majority becomes the dominant trait. The top-right panel shows the same situation, but with content preference involved ($\alpha=0.1$). In this case, all runs converge on the same equilibrium, with the trait A, toward which the preference points, becoming dominant.
+
+In the "continuous traits" condition, the results are similar. When only conformity acts (bottom-left panel), the population converges, in each run, on the initial traits' mean, with the conformity process rapidly reducing variance in the population (see the inset plot in the bottom-left panel). When content preference is present, all runs converge on all individuals with $p=1$ (bottom-right panel).
+
+![Simulations mixing frequency-based social influence (conformity) and content preference Each line represesnts a run, the thick black line is the average. Top panel: Proportion of population with trait A in the discrete traits condition. Top-left: only conformity acting ($\alpha=0$). Top-right: content preference and content preference ($\alpha=0.1$). For all simulations in the discrete traits condition, $T=50, D=1, p_0=0.5$ Bottom panel: Average trait value in the continuos traits condition. Bottom-left: only conformity acting ($\alpha=0$). Inset plot: the shaded area shows the variance for a respresentative run. Bottom-right: conformity and content preference ($\alpha=0.1$). For all simulations in the continuos traits condition, $T=100$. For all simulations $N=1000$, and 100 runs per condition. \label{fig1}](../figures/for_draft/fig1.pdf)
+
+![Simulations mixing frequency-based social influence (conformity) and content preference. Each line represesnts a run, the thick black line is the average. Left panel: Proportion of population with trait A in the discrete traits condition. Conformity and content preference starting from a population with only trait B ($p_0=0$). Red lines: runs with $\alpha=0.1$ Blue lines: runs with $\alpha=0.2$. For all runs: $T=50, D=1$. Right panel: Average trait value in the continuos traits condition. Conformity and content preference starting from a population where all individuals are initialised with $p=0$. For all runs: $T=100, \alpha=0.1$ For all simulations $N=1000$, and 100 runs per condition. \label{fig2}](../figures/for_draft/fig2.pdf)
+
+In the simulations with both content preference and conformity, the same qualitative result of convergence on trait A (or on $p=1$ in the continuous case) are reached for all possible parameter values in the continuous case and, in particular, for any $\alpha>0$. In the discrete case, when $p_0=0$, that is, when all individuals have trait B at the beginning of the simulation, trait A does not reach fixation with $\alpha=0.1$ (see Figure \ref{fig2}, left panel, red lines - in the continuous case, even if all individuals are initialised with $p=0$ results do not change, see right panel). In this situation, the proportion of individuals switching to trait A is not sufficient to overturn the majority, and it is reabsorbed at each time step. With stronger content preference ($\alpha=0.2$) trait A is back to be fixed in the population (see Figure \ref{fig2}, left panel, blue lines). It is interesting, in this situation, to analyse more in detail the effect of parameters $p_0$ and $\alpha$ (see Figure \ref{fig3}). When there is an initial majority of trait B ($p_0⪅0.5$), $\alpha$ needs to be higher than $0.1$ for the trait A to reach fixation. In the other cases, any amount of $\alpha>0$ is sufficient.
+
+![Simulations mixing frequency-based social influence (conformity) and content preference n in the discrete traits condition. The plot examines the results for $0.01\le\alpha\le0.2$ and $0\le p_0\le0.5$ and shows the proportion of runs in which the trait A reach fixation (out of 100 for each parameters combination). For all simulations, $T=50, D=1, N=1000$. \label{fig3}](../figures/for_draft/fig3.pdf){width="65%"}
+
+The results for the simulations mixing content preference and demonstrator-based social influence, such as prestige, are broadly similar. Figure \ref{fig4} shows representative results giving a relatively small amount of individuals with high status ($C_s=0.01$) and $C_{copy}=5$. As for conformity, the discrete choice without content preference produces a roughly equal distribution of runs where either A or B are fixed in the population, depending on their relative majority in the pool of "high status" demonstrators (top-left panel). As before, when content preference acts, runs converge to an equilibrium with only trait A, as long as enough high status individuals adopt it (top-right panel).
+
+In the continuous traits condition, populations converge on one of the high status demonstrator' traits when content preference is not present (bottom-left panel), and on all individuals having $p=1$ when it is (bottom-right panel).
+
+![Simulations mixing demonstrator-based social influence and content preference. Each line represesnts a run, the thick black line is the average. Top panel: Proportion of population with trait A in the discrete traits condition. Top-left: only demonstrator-based social influence acting ($\alpha=0$). Top-right: demonstrator-based social influence and content preference ($\alpha=0.1$). For all simulations in the discrete traits condition, $D=1$ and $p_0=0.5$ Bottom panel: Average trait value in the continuos traits condition. Bottom-left: only demonstrator-based social influence acting ($\alpha=0$). Bottom-right: demonstrator-based social influence and content preference ($\alpha=0.1$). For all simulations $N=1000$, $T=200$, $C_s=0.01$, $C_{copy}=5$, and 100 runs per condition. \label{fig4}](../figures/for_draft/fig4.pdf)
+
+With demonstrator-based social influence, all parameters combinations generate, sooner or later, an equilibrium where all individuals have trait A, or $p=1$ in the continuous case. Even with $p_0=0$ in the discrete condition (all individuals starting with trait B, i.e., the analogous of the case discussed above for conformity, when $\alpha=1$ was not sufficient to overrun the initial majority), an equilibrium with all As is reached. It is useful to examine the relation between the parameters regulating the strength of the demonstrator-based social influence ($C_s$ and $C_{copy}$) as they point out a general effect, that may appear counter-intuitive: the stronger the bias, the stronger the tendency to reach the equilibrium where the content preference points to. Figure \ref{fig4} shows that, for simulations lasting $T=200$, in the discrete traits case, trait A-equilibrium is reached more frequently with higher values of $C_{copy}$ (that is, when the probability of copying high status individuals is increased with respect to the probability of copying low status ones), and, with a small effect, with lower values of $C_s$ (i.e., when the pool of high status demonstrators is relatively smaller). (As noticed above, in all cases the equilibrium will be reached given enough time.)
+
+![Simulations mixing demonstrator-based social influence and content preference in the discrete traits condition. Proportion of runs in which the trait A reach fixation (out of 100 for each parameters combination) for simulation with $T=200$. For all simulations $\alpha=0.1$, $C_s=(0.005, 0.01, 0.1)$, $C_{copy}=(1,5,10)$, and $N=1000$. \label{fig5}](../figures/for_draft/fig5.pdf){width="55%"}
+
+# Discussion {#discussion}
+
+The results of the simulations show that, in virtually all scenarios, content preferences stabilise culture at the point where they are directed to. When social influence mechanisms act alone, they also bring traits to fixation, but which trait/trait configuration wins is left to chance. Social influence mechanisms---both based on frequency (conformity) and on demonstrators' features (e.g., prestige bias)---, are independent from traits' features, and non-directional, so that content preferences are the only directional forces in the system, and their existence is sufficient to determine the fate of the system. Only in one case, that is, when the majority of the population adopts the non-favoured trait in a discrete choice and conformity acts, the preference for the (minority) traits need to be sufficiently strong to overcome the initial majority (see Figure \ref{fig3}).
+
+SIMILAR RESULTS IN OTHER PAPERS, INCLUDING [@yan2023]
+
+Conceptually, it is important to think to social influence and preferences for content not as opposing forces. Non-directional social influence provide, so to say, strength, to the weak but directional preferences for content (as illustrated in Figure \ref{fig5}). In other words, culture magnifies individual-level tendencies, allowing them to become stable at population level. In the models presented here, only one preference was considered, but the same logic applies to more realistic situations with many different forces, and we would expect culture to homogenise population towards the stronger ones.
+
+The obvious take home message of these results is that, if our question is why some things are culturally successful and others are not (as from the beginning of this paper), weak but stable non-social forces need to be taken into account. A possibly less obvious take home message concerns the interpretation of cross-cultural regularities.
+
+human universals do not need strong cognitive (or others) predispositions.
+
+Evolutionary psychologists have...While everyone would agree this is a false dichotomy, it is important to understand why it is so.
+
+Limitations:
+
+-   content preference is deterministic? simplification but it would not change qualitatively the results.
+
+-   social influence detached from trait.
+
+\singlespacing
+
+# Acknowledgments
+
+James Winters suggested to implement copying probabilities in the demonstrator-biased model with a softmax function.
+
+::: {style="page-break-after: always; visibility: hidden"}
+\pagebreak
+:::
+
+# References
