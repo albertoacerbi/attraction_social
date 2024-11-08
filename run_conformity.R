@@ -14,8 +14,8 @@ ggplot(data = data_model, aes(y = p, x = generation)) +
   ylim(c(0, 1)) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs(y = "p (proportion of individuals with trait A)") +
-  ggsave("figures/fig1A.pdf", width = 4, height = 4)
+  labs(y = "p (proportion of individuals with trait A)")
+ggsave("figures/fig1A.pdf", width = 4, height = 4)
 toc()
 
 
@@ -28,8 +28,8 @@ ggplot(data = data_model, aes(y = p, x = generation)) +
   ylim(c(0, 1)) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs(y = "p (proportion of individuals with trait A)") +
-  ggsave("figures/fig1B.pdf", width = 4, height = 4)
+  labs(y = "p (proportion of individuals with trait A)")
+ggsave("figures/fig1B.pdf", width = 4, height = 4)
 toc()
 
 
@@ -38,33 +38,36 @@ toc()
 
 # FIGURE 1 C
 tic()
-data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0, t_max = 100, r_max = 100)
+data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0, t_max = 100, r_max = 100, 
+                                                 beta = .5, sd_error = .1)
 ggplot(data = data_model, aes(y = p, x = generation)) +
   geom_line(aes(group = run), colour = "coral") +
   stat_summary(fun = mean, geom = "line", size = 1) +
   ylim(c(0, 1)) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs(y = expression(bar(p))) +
-  ggsave("figures/fig1C.pdf", width = 4, height = 4)
+  labs(y = expression(bar(p)))
+ggsave("figures/fig1C.pdf", width = 4, height = 4)
 toc()
 
 # FIGURE 1 D
 tic()
-data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0.1, t_max = 100, r_max = 100)
+data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0.1, t_max = 100, r_max = 100, 
+                                                 beta = .5, sd_error = .1)
 ggplot(data = data_model, aes(y = p, x = generation)) +
   geom_line(aes(group = run), colour = "coral") +
   stat_summary(fun = mean, geom = "line", size = 1) +
-  ylim(c(0, 1)) +
+  ylim(c(0, 1.05)) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs(y = expression(bar(p))) +
-  ggsave("figures/fig1D.pdf", width = 4, height = 4)
+  labs(y = expression(bar(p)))
+ggsave("figures/fig1D.pdf", width = 4, height = 4)
 toc()
 
 # inset FIGURE 1 C
 
-data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0, t_max = 25, r_max = 1)
+data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = 0, t_max = 100, r_max = 1,
+                                                 beta = .5, sd_error = .1)
 ggplot(data = data_model, aes(y = p, x = generation)) +
   geom_line(size = 1) +
   geom_ribbon(aes(ymin = p-sd, ymax=p+sd), linetype=2, alpha=0.5) +
@@ -73,7 +76,7 @@ ggplot(data = data_model, aes(y = p, x = generation)) +
   theme(legend.position = "none") +
   labs(y = expression(bar(p))) +
   theme(axis.text = element_text(size = 20)) +
-  theme(text = element_text(size = 20)) +
+  theme(text = element_text(size = 20))
   ggsave("figures/fig1C_inset.pdf", width = 4, height = 4)
 
 
@@ -121,7 +124,7 @@ toc()
 
 # FIGURE 3
 
-# results ar more complicated for the discrete case: we study relationship between p_0 and alpha:
+# results are more complicated for the discrete case: we study relationship between p_0 and alpha:
 # alpha_attractor_cycle = seq(from = .01, to = .2, by =.01)
 # p_0_cycle = seq(from = 0, to = .5, by = .02)
 # 
