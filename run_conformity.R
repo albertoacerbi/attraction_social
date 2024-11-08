@@ -103,23 +103,25 @@ ggplot(data = data_model, aes(y = p, x = generation)) +
   ylim(c(0, 1)) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs(y = "p (proportion of individuals with trait A)") +
-  ggsave("figures/fig2A.pdf", width = 4, height = 4)
+  labs(y = "p (proportion of individuals with trait A)")
 
+ggsave("figures/fig2A.pdf", width = 4, height = 4)
 toc()
 
 
 # FIGURE 2 B
 tic()
-data_model <- conformist_transmission_continuous(N = 1000, p_0 = 0, alpha_attr = 0.1, t_max = 100, r_max = 100)
+data_model <- conformist_transmission_continuous(N = 1000, p_0 = 0, alpha_attr = 0.1, t_max = 100, r_max = 100, 
+                                                 beta = .5, sd_error = .1)
 ggplot(data = data_model, aes(y = p, x = generation)) +
   geom_line(aes(group = run), colour = "coral") +
   stat_summary(fun = mean, geom = "line", size = 1) +
-  ylim(c(0, 1)) +
+  ylim(c(0, 1.05)) +
   theme_classic() +
   theme(legend.position = "none") +
-  labs(y = expression(bar(p))) +
-  ggsave("figures/fig2B.pdf", width = 4, height = 4)
+  labs(y = expression(bar(p)))
+
+ggsave("figures/fig2B.pdf", width = 4, height = 4)
 toc()
 
 # FIGURE 3
@@ -155,8 +157,8 @@ ggplot(data = output, aes(x = a, y = p, fill = stabile)) +
        x = expression(alpha)) +
   theme_minimal() +
   scale_fill_gradient(low = "gray", high = "darkgreen", na.value = NA) +
-  labs(fill = "Runs stable\nat trait A") +
-  ggsave("figures/fig3.pdf", width = 5, height = 4)
+  labs(fill = "Runs stable\nat trait A")
+ggsave("figures/fig3.pdf", width = 5, height = 4)
 
 
 
