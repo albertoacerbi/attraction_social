@@ -2,13 +2,6 @@ library(tidyverse)
 library(tictoc)
 library(matrixStats)
 
-rescale <- function(original, new_min, new_max){
-  current_max = max(original)
-  current_min = min(original)
-  output =((original - current_min)*(new_max - new_min))/(current_max - current_min) + new_min
-  output
-}
-
 
 plot_multiple_runs <- function(data_model) {
   ggplot(data = data_model, aes(y = p, x = generation)) +
@@ -101,7 +94,7 @@ conformist_transmission_continuous <- function (N, alpha_attr, beta, sd_error, p
   for (r in 1:r_max) {
     if(is.na(p_0)){
     # around the central value: (also consider a beta distribution)
-     population <- rescale(rnorm(N),0,1)
+      population <- rnorm(N, .5, 1)  
     }
     else{
     # similar to the discrete case:
@@ -137,17 +130,17 @@ conformist_transmission_continuous <- function (N, alpha_attr, beta, sd_error, p
 
 
 # TESTS HERE:
-tic()
-data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = .1, t_max = 100, r_max = 10, beta = .5,
-                                                   sd_error = .1)
-plot_multiple_runs(data_model)
- # in the continuous case, no matter how small is alpha, at some point it will always stabilise on the attractor!
-toc()
-# # 
-tic()
-data_model <- conformist_transmission_discrete(N = 1000, p_0 = 0.5, D = 1, alpha_attr = 0.1, t_max = 50, r_max = 10)
-plot_multiple_runs(data_model)
-toc()
+# tic()
+# data_model <- conformist_transmission_continuous(N = 1000, p_0 = NA, alpha_attr = .1, t_max = 100, r_max = 10, beta = .5,
+#                                                    sd_error = .1)
+# plot_multiple_runs(data_model)
+#  # in the continuous case, no matter how small is alpha, at some point it will always stabilise on the attractor!
+# toc()
+# # # 
+# tic()
+# data_model <- conformist_transmission_discrete(N = 1000, p_0 = 0.5, D = 1, alpha_attr = 0.1, t_max = 50, r_max = 10)
+# plot_multiple_runs(data_model)
+# toc()
 
 
 

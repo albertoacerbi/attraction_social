@@ -19,13 +19,6 @@ plot_multiple_runs <- function(data_model) {
     labs(y = "p")
 }
 
-rescale <- function(original, new_min, new_max){
-  current_max = max(original)
-  current_min = min(original)
-  output =((original - current_min)*(new_max - new_min))/(current_max - current_min) + new_min
-  output
-}
-
 # ACTUAL SIMS:
 
 # discrete - from Acerbi, Mesoudi, Smolla, IBM book + JW's softmax function + attraction (biased mutation in the discrete case):
@@ -92,7 +85,7 @@ biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_copy, alp
   for (r in 1:r_max) {
     # Create first generation
     if(is.na(p_0)){
-      population <- tibble(trait = rescale(rnorm(N),0,1),
+      population <- tibble(trait = rnorm(N, .5, 1),  
                            status = sample(c("high", "low"), N,
                                            replace = TRUE, prob = c(c_s, 1 - c_s))) 
     }
@@ -142,16 +135,16 @@ biased_transmission_demonstrator_continuous <- function(N, p_0, c_s, c_copy, alp
 
 
 # TESTS HERE:
-
-tic()
-data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.7, c_s = 0.01, c_copy = 5, alpha_attr = 0, t_max = 500, r_max = 10)
-plot_multiple_runs(data_model)
-toc()
 # 
-tic()
-data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_copy = 5, alpha_attr = .1, 
-                                                          t_max = 100, r_max = 10, beta = 0.5, sd_error = .1)
-plot_multiple_runs(data_model)
-toc()
+# tic()
+# data_model <- biased_transmission_demonstrator_discrete(N = 1000, p_0 = 0.7, c_s = 0.01, c_copy = 5, alpha_attr = 0, t_max = 500, r_max = 10)
+# plot_multiple_runs(data_model)
+# toc()
 # # 
+# tic()
+# data_model <- biased_transmission_demonstrator_continuous(N = 1000, p_0 = NA, c_s = 0.01, c_copy = 5, alpha_attr = .1, 
+#                                                           t_max = 100, r_max = 10, beta = 0.5, sd_error = .1)
+# plot_multiple_runs(data_model)
+# toc()
+# # # 
 
